@@ -1,0 +1,323 @@
+[
+  {
+    "date": "01/09/2026",
+    "day": 1,
+    "isOff": false,
+    "status": "2555",
+    "duties": [
+      "2555"
+    ],
+    "details": null
+  },
+  {
+    "date": "02/09/2026",
+    "day": 2,
+    "isOff": false,
+    "status": "2555",
+    "duties": [
+      "2555"
+    ],
+    "details": null
+  },
+  {
+    "date": "03/09/2026",
+    "day": 3,
+    "isOff": false,
+    "status": "2557, 2523-1",
+    "duties": [
+      "2557",
+      "2523-1"
+    ],
+    "details": null
+  },
+  {
+    "date": "04/09/2026",
+    "day": 4,
+    "isOff": false,
+    "status": "2561",
+    "duties": [
+      "2561"
+    ],
+    "details": null
+  },
+  {
+    "date": "05/09/2026",
+    "day": 5,
+    "isOff": false,
+    "status": "2553",
+    "duties": [
+      "2553"
+    ],
+    "details": null
+  },
+  {
+    "date": "06/09/2026",
+    "day": 6,
+    "isOff": false,
+    "status": "2553",
+    "duties": [
+      "2553"
+    ],
+    "details": null
+  },
+  {
+    "date": "07/09/2026",
+    "day": 7,
+    "isOff": false,
+    "status": "2563-2",
+    "duties": [
+      "2563-2"
+    ],
+    "details": null
+  },
+  {
+    "date": "08/09/2026",
+    "day": 8,
+    "isOff": false,
+    "status": "2559",
+    "duties": [
+      "2559"
+    ],
+    "details": null
+  },
+  {
+    "date": "09/09/2026",
+    "day": 9,
+    "isOff": true,
+    "status": "OFF",
+    "duties": [],
+    "details": null
+  },
+  {
+    "date": "10/09/2026",
+    "day": 10,
+    "isOff": false,
+    "status": "2012",
+    "duties": [
+      "2012"
+    ],
+    "details": null
+  },
+  {
+    "date": "11/09/2026",
+    "day": 11,
+    "isOff": false,
+    "status": "2092",
+    "duties": [
+      "2092"
+    ],
+    "details": null
+  },
+  {
+    "date": "12/09/2026",
+    "day": 12,
+    "isOff": false,
+    "status": "2092",
+    "duties": [
+      "2092"
+    ],
+    "details": null
+  },
+  {
+    "date": "13/09/2026",
+    "day": 13,
+    "isOff": true,
+    "status": "OFF",
+    "duties": [],
+    "details": null
+  },
+  {
+    "date": "14/09/2026",
+    "day": 14,
+    "isOff": true,
+    "status": "RDO",
+    "duties": [],
+    "details": null
+  },
+  {
+    "date": "15/09/2026",
+    "day": 15,
+    "isOff": false,
+    "status": "2027, 2510",
+    "duties": [
+      "2027",
+      "2510"
+    ],
+    "details": null
+  },
+  {
+    "date": "16/09/2026",
+    "day": 16,
+    "isOff": false,
+    "status": "2021",
+    "duties": [
+      "2021"
+    ],
+    "details": null
+  },
+  {
+    "date": "17/09/2026",
+    "day": 17,
+    "isOff": false,
+    "status": "2217, 2202-11",
+    "duties": [
+      "2217",
+      "2202-11"
+    ],
+    "details": {
+      "validFrom": "17/09/2026",
+      "time": "06:38 - 17:47",
+      "dutyDuration": "10:24 Hrs",
+      "wageHours": "08:40 Hrs",
+      "dayType": "",
+      "dutyType": "Duty",
+      "startLocation": "TBG, Trent Bridge Garage",
+      "name": null
+    }
+  },
+  {
+    "date": "18/09/2026",
+    "day": 18,
+    "isOff": false,
+    "status": "2021, 2204-1",
+    "duties": [
+      "2021",
+      "2204-1"
+    ],
+    "details": null
+  },
+  {
+    "date": "19/09/2026",
+    "day": 19,
+    "isOff": false,
+    "status": "2029",
+    "duties": [
+      "2029"
+    ],
+    "details": null
+  },
+  {
+    "date": "20/09/2026",
+    "day": 20,
+    "isOff": false,
+    "status": "305",
+    "duties": [
+      "305"
+    ],
+    "details": null
+  },
+  {
+    "date": "21/09/2026",
+    "day": 21,
+    "isOff": false,
+    "status": "S0600T,3183,3005,617",
+    "duties": [
+      "S0600T",
+      "3183",
+      "3005",
+      "617"
+    ],
+    "details": null
+  },
+  {
+    "date": "22/09/2026",
+    "day": 22,
+    "isOff": false,
+    "status": "2020, 602",
+    "duties": [
+      "2020",
+      "602"
+    ],
+    "details": null
+  },
+  {
+    "date": "23/09/2026",
+    "day": 23,
+    "isOff": false,
+    "status": "2023, 2218",
+    "duties": [
+      "2023",
+      "2218"
+    ],
+    "details": null
+  },
+  {
+    "date": "24/09/2026",
+    "day": 24,
+    "isOff": true,
+    "status": "OFF",
+    "duties": [],
+    "details": null
+  },
+  {
+    "date": "25/09/2026",
+    "day": 25,
+    "isOff": false,
+    "status": "2107",
+    "duties": [
+      "2107"
+    ],
+    "details": null
+  },
+  {
+    "date": "26/09/2026",
+    "day": 26,
+    "isOff": false,
+    "status": "2001",
+    "duties": [
+      "2001"
+    ],
+    "details": null
+  },
+  {
+    "date": "27/09/2026",
+    "day": 27,
+    "isOff": false,
+    "status": "2000",
+    "duties": [
+      "2000"
+    ],
+    "details": null
+  },
+  {
+    "date": "28/09/2026",
+    "day": 28,
+    "isOff": false,
+    "status": "3004",
+    "duties": [
+      "3004"
+    ],
+    "details": null
+  },
+  {
+    "date": "29/09/2026",
+    "day": 29,
+    "isOff": false,
+    "status": "3401, 2900-11, 34...",
+    "duties": [
+      "3401",
+      "2900-11",
+      "34"
+    ],
+    "details": null
+  },
+  {
+    "date": "30/09/2026",
+    "day": 30,
+    "isOff": false,
+    "status": "2090",
+    "duties": [
+      "2090"
+    ],
+    "details": {
+      "validFrom": "28/09/2026",
+      "time": "16:33 - 24:41",
+      "dutyDuration": "08:08 Hrs",
+      "wageHours": "08:08 Hrs",
+      "dayType": "Monday-Friday",
+      "dutyType": "Duty",
+      "startLocation": "MKT, Angel Row Sign on Point",
+      "name": null
+    }
+  }
+]

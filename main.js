@@ -1,4 +1,6 @@
 const { app, BrowserWindow, session } = require('electron')
+const fs = require('fs')
+const path = require('path')
 
 let mainWindow;
 
@@ -92,6 +94,14 @@ function createWindow() {
         console.log("==================== CONVERTED FULL MONTH JSON ====================");
         console.log(JSON.stringify(fullMonthRoster, null, 2));
         console.log("===================================================================");
+
+        // Define where to save the file (this saves it right inside your project folder)
+        const filePath = path.join(__dirname, 'roster_output.json');
+        
+        // Convert the array into a nicely formatted string and write it to disk
+        fs.writeFileSync(filePath, JSON.stringify(fullMonthRoster, null, 2), 'utf-8');
+        console.log(`💾 SUCCESS: Saved full roster data to file at: ${filePath}`);
+
       } catch (error) {
         console.error("Failed to extract calendar text:", error);
       }
@@ -116,47 +126,109 @@ function parseFullMonthRoster(text) {
   const match = text.match(gridRegex);
   
   if (!match) {
-    console.log("❌ Could not isolate the calendar grid context from text.");
+    console.error("❌ Could not isolate the calendar grid from the text.");
     return fullRosterJson;
   }
   
   const gridText = match[1];
 
-  // 2. Global Regex match: Plucks a number string, followed by whitespace/newlines, followed by a duty designation/OFF/RDO string
-  // It handles list strings like "2557, 2523-1" or "S0600T,3183,3005,617" perfectly
-  const dayPattern = /(\d{1,2})\s+([A-Z0-9a-z\-_,\s]+?)(?=\s+\d{1,2}\s+|\s*\$)/g;
+  // 2. Extract every day number and its associated duty token block
+  const dayPattern = /(\d{1,2})\s+([A-Z0-9a-z\-_,\s\.]+?)(?=\s+\d{1,2}\s+|\s*\$)/g;
   
   let itemMatch;
   let lastDayNumber = 0;
+  const calendarMap = {};
 
   while ((itemMatch = dayPattern.exec(gridText)) !== null) {
     const dayNum = parseInt(itemMatch[1], 10);
-    let rawStatus = itemMatch[2].trim().replace(/[\r\n]+/g, ' '); // Clean out vertical formatting noise
+    let rawStatus = itemMatch[2].trim().replace(/[\r\n]+/g, ' ').replace(/\s+/g, ' '); 
 
-    // Filter out trailing days from next month or leading spillage from previous month
+    // Handle month spillage boundaries
     if (dayNum < lastDayNumber && lastDayNumber >= 28) break;
     if (lastDayNumber === 0 && dayNum > 7) continue;
 
     lastDayNumber = dayNum;
+    calendarMap[dayNum] = rawStatus;
+  }
 
-    const paddedDay = String(dayNum).padStart(2, '0');
+  // 3. Extract the detailed duty configurations from the bottom of the text dump
+  const dutyDetailsMap = {};
+  const lines = text.split('\n');
+  
+  lines.forEach(line => {
+    if (line.trim().startsWith('Duty:')) {
+      let cleanLine = line.replace(/•/g, ' ').replace(/\s{2,}/g, ' ').replace(/ /g, ' ').trim();
+
+      const dutyMatch = cleanLine.match(/Duty:\s*(.*?)\s*Valid from:/);
+      const validFromMatch = cleanLine.match(/Valid from:\s*([\d\/]+)/);
+      const timeMatch = cleanLine.match(/Time:\s*([\d:]+\s*-\s*[\d:]+)/);
+      const durationMatch = cleanLine.match(/Duty duration:\s*([^\s]+)/);
+      const wageMatch = cleanLine.match(/Wage hours:\s*([^\s]+)/);
+      const dayTypeMatch = cleanLine.match(/Day type:\s*(.*?)\s*Duty type:/);
+      const dutyTypeMatch = cleanLine.match(/Duty type:\s*(.*?)\s*Start location:/);
+      const locationMatch = cleanLine.match(/Start location:\s*(.*?)\s*Name:/);
+      const nameMatch = cleanLine.match(/Name:\s*(.*)\$/);
+
+      if (dutyMatch) {
+        const dutyKey = dutyMatch[1].trim();
+        dutyDetailsMap[dutyKey] = {
+          validFrom: validFromMatch ? validFromMatch[1] : null,
+          time: timeMatch ? timeMatch[1] : null,
+          dutyDuration: durationMatch ? `${durationMatch[1]} Hrs` : null,
+          wageHours: wageMatch ? `${wageMatch[1]} Hrs` : null,
+          dayType: dayTypeMatch ? dayTypeMatch[1].trim() : null,
+          dutyType: dutyTypeMatch ? dutyTypeMatch[1].trim() : null,
+          startLocation: locationMatch ? locationMatch[1].trim() : null,
+          name: nameMatch ? nameMatch[1].trim() : null
+        };
+      }
+    }
+  });
+
+  // 4. Assemble the final unified 30-day array
+  for (let day = 1; day <= 30; day++) {
+    const paddedDay = String(day).padStart(2, '0');
     const dateString = `${paddedDay}/09/2026`;
-    const isOffDay = rawStatus === "OFF" || rawStatus === "RDO";
+    
+    const status = calendarMap[day] || "OFF";
+    const isOffDay = status === "OFF" || status === "RDO";
 
-    // Split duties cleanly by comma if it's a working day
+    // Split multi-duties cleanly into an array list, filtering out the trailing "..."
     let dutiesArray = [];
     if (!isOffDay) {
-      dutiesArray = rawStatus.split(',')
-                             .map(d => d.trim())
-                             .filter(d => d.length > 0);
+      dutiesArray = status.replace(/\.\.\./g, '')
+                          .split(',')
+                          .map(d => d.trim())
+                          .filter(d => d.length > 0);
+    }
+
+    // Smart Match: Try finding exact matching text block first
+    let details = dutyDetailsMap[status] || null;
+    
+    // Fallback 1: Match by stripping the trailing "..." text truncation noise
+    if (!details && !isOffDay) {
+      const cleanStatus = status.replace(/\.\.\./g, '').trim();
+      details = dutyDetailsMap[cleanStatus] || null;
+    }
+
+    // Fallback 2: If it still misses (like on day 29), look up using just the primary first duty item number
+    if (!details && dutiesArray.length > 0) {
+      const primaryDuty = dutiesArray[0];
+      
+      // Scan our map keys to see if any saved duty sequence starts with this number
+      const matchingKey = Object.keys(dutyDetailsMap).find(key => key.startsWith(primaryDuty));
+      if (matchingKey) {
+        details = dutyDetailsMap[matchingKey];
+      }
     }
 
     fullRosterJson.push({
       date: dateString,
-      day: dayNum,
-      duties: dutiesArray,
+      day: day,
       isOff: isOffDay,
-      rawStatus: rawStatus
+      status: status,
+      duties: dutiesArray,
+      details: details
     });
   }
   
