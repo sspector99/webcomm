@@ -1,0 +1,24 @@
+{
+  "name": "webcomm",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/sspector99/webcomm#readme",
+  "bugs": {
+    "url": "https://github.com/sspector99/webcomm/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sspector99/webcomm.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "electron": "^44.4.5"
+  }
+}
